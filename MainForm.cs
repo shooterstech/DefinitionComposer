@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Scopos.BabelFish.DataModel.Definitions;
 using System.Globalization;
+// using Amazon.Runtime.Internal.Util;
+using NLog;
 
 namespace DefinitionComposer {
 	public partial class MainForm : Form {
@@ -19,6 +21,7 @@ namespace DefinitionComposer {
 		ClubsAPIClient ClubsClient = null;
 		ClubDetail ClubDetail = null;
 		TextInfo TextInfo = CultureInfo.CurrentCulture.TextInfo;
+		private Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public MainForm() {
 			InitializeComponent();
@@ -57,6 +60,7 @@ namespace DefinitionComposer {
 			}
 
 			ownerIdTextBox.Text = settings.OwnerId;
+			ownerIdTextBox_TextChanged( null, null );
 		}
 
 		private void saveSettings() {
@@ -97,18 +101,69 @@ namespace DefinitionComposer {
 
 		private async void saveButton_Click( object sender, EventArgs e ) {
 
-			
 
-			var definition = await DefinitionFactory.Build<StageStyle>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+			try {
+				Definition definition;
+				switch( GetSelectedDefinition() ) {
+					case DefinitionType.ATTRIBUTE:
+						definition = await DefinitionFactory.Build<Scopos.BabelFish.DataModel.Definitions.Attribute>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.COURSEOFFIRE:
+						definition = await DefinitionFactory.Build<CourseOfFire>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.EVENTANDSTAGESTYLEMAPPING:
+						definition = await DefinitionFactory.Build<EventAndStageStyleMapping>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.EVENTSTYLE:
+						definition = await DefinitionFactory.Build<EventStyle>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.RANKINGRULES:
+						definition = await DefinitionFactory.Build<RankingRule>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.RESULTLISTFORMAT:
+						definition = await DefinitionFactory.Build<ResultListFormat>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.SCOREFORMATCOLLECTION:
+						definition = await DefinitionFactory.Build<ScoreFormatCollection>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.STAGESTYLE:
+						definition = await DefinitionFactory.Build<StageStyle>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.TARGET:
+						definition = await DefinitionFactory.Build<Target>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					case DefinitionType.TARGETCOLLECTION:
+						definition = await DefinitionFactory.Build<TargetCollection>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+						break;
+					default:
+						//Shouldn't ever get here.
+						throw new NotImplementedException();
+				}
 
 
-			DirectoryInfo definitionDirectory = new DirectoryInfo( definitionFolderBrowserDialog.SelectedPath );
-			definition.SaveToFile( definitionDirectory );
+				DirectoryInfo definitionDirectory = new DirectoryInfo( definitionFolderBrowserDialog.SelectedPath );
+				definition.SaveToFile( definitionDirectory );
+			} catch (Exception ex) {
+				Logger.Error( ex );
+			}
 		}
 
-		private void properNameTextBox_TextChanged( object sender, KeyEventArgs e ) {
-
+		private void properNameTextBox_TextChanged( object sender, EventArgs e ) {
 			properNameTextBox.Text = TextInfo.ToTitleCase( properNameTextBox.Text );
+
+		}
+
+		private DefinitionType GetSelectedDefinition() {
+
+			foreach (Control control in definitionTypeGroupBox.Controls) {
+				if (control is RadioButton rb && rb.Checked) {
+					var defTypeStr = (string)rb.Tag;
+					var definitionType = (DefinitionType) Enum.Parse( typeof( DefinitionType ), defTypeStr );
+					return definitionType;
+				}
+			}
+
+			return DefinitionType.ATTRIBUTE;
 		}
 	}
 }

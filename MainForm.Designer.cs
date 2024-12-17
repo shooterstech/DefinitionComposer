@@ -82,7 +82,7 @@
 			this.targetCollecitonRadioButton.Size = new System.Drawing.Size(162, 23);
 			this.targetCollecitonRadioButton.TabIndex = 9;
 			this.targetCollecitonRadioButton.TabStop = true;
-			this.targetCollecitonRadioButton.Tag = "TARGET COLLECTION";
+			this.targetCollecitonRadioButton.Tag = "TARGETCOLLECTION";
 			this.targetCollecitonRadioButton.Text = "TARGET COLLECTION";
 			this.targetCollecitonRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -110,7 +110,7 @@
 			this.stageStyleRadioButton.Size = new System.Drawing.Size(109, 23);
 			this.stageStyleRadioButton.TabIndex = 7;
 			this.stageStyleRadioButton.TabStop = true;
-			this.stageStyleRadioButton.Tag = "STAGE STYLE";
+			this.stageStyleRadioButton.Tag = "STAGESTYLE";
 			this.stageStyleRadioButton.Text = "STAGE STYLE";
 			this.stageStyleRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -124,7 +124,7 @@
 			this.scoreFormatCollectionRadioButton.Size = new System.Drawing.Size(216, 23);
 			this.scoreFormatCollectionRadioButton.TabIndex = 6;
 			this.scoreFormatCollectionRadioButton.TabStop = true;
-			this.scoreFormatCollectionRadioButton.Tag = "SCORE FORMAT COLLECTION";
+			this.scoreFormatCollectionRadioButton.Tag = "SCOREFORMATCOLLECTION";
 			this.scoreFormatCollectionRadioButton.Text = "SCORE FORMAT COLLECTION";
 			this.scoreFormatCollectionRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -138,7 +138,7 @@
 			this.resultListFormatRadioButton.Size = new System.Drawing.Size(163, 23);
 			this.resultListFormatRadioButton.TabIndex = 5;
 			this.resultListFormatRadioButton.TabStop = true;
-			this.resultListFormatRadioButton.Tag = "RESULT LIST FORMAT";
+			this.resultListFormatRadioButton.Tag = "RESULTLISTFORMAT";
 			this.resultListFormatRadioButton.Text = "RESULT LIST FORMAT";
 			this.resultListFormatRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -152,7 +152,7 @@
 			this.rankingRuleRadioButton.Size = new System.Drawing.Size(143, 23);
 			this.rankingRuleRadioButton.TabIndex = 4;
 			this.rankingRuleRadioButton.TabStop = true;
-			this.rankingRuleRadioButton.Tag = "RANKING RULES";
+			this.rankingRuleRadioButton.Tag = "RANKINGRULES";
 			this.rankingRuleRadioButton.Text = "RANKINNG RULES";
 			this.rankingRuleRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -166,7 +166,7 @@
 			this.eventStyleRadioButton.Size = new System.Drawing.Size(109, 23);
 			this.eventStyleRadioButton.TabIndex = 3;
 			this.eventStyleRadioButton.TabStop = true;
-			this.eventStyleRadioButton.Tag = "EVENT STYLE";
+			this.eventStyleRadioButton.Tag = "EVENTSTYLE";
 			this.eventStyleRadioButton.Text = "EVENT STYLE";
 			this.eventStyleRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -180,7 +180,7 @@
 			this.eventAndStageStyleMappingRadioButton.Size = new System.Drawing.Size(255, 23);
 			this.eventAndStageStyleMappingRadioButton.TabIndex = 2;
 			this.eventAndStageStyleMappingRadioButton.TabStop = true;
-			this.eventAndStageStyleMappingRadioButton.Tag = "EVENT AND STAGE STYLE MAPPING";
+			this.eventAndStageStyleMappingRadioButton.Tag = "EVENTANDSTAGESTYLEMAPPING";
 			this.eventAndStageStyleMappingRadioButton.Text = "EVENT AND STAGE STYLE MAPPING";
 			this.eventAndStageStyleMappingRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -194,7 +194,7 @@
 			this.courseOfFireRadioButton.Size = new System.Drawing.Size(132, 23);
 			this.courseOfFireRadioButton.TabIndex = 1;
 			this.courseOfFireRadioButton.TabStop = true;
-			this.courseOfFireRadioButton.Tag = "COURSE OF FIRE";
+			this.courseOfFireRadioButton.Tag = "COURSEOFFIRE";
 			this.courseOfFireRadioButton.Text = "COURSE OF FIRE";
 			this.courseOfFireRadioButton.UseVisualStyleBackColor = true;
 			// 
@@ -265,7 +265,6 @@
 			this.properNameTextBox.Name = "properNameTextBox";
 			this.properNameTextBox.Size = new System.Drawing.Size(284, 25);
 			this.properNameTextBox.TabIndex = 7;
-			this.properNameTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.properNameTextBox_TextChanged);
 			// 
 			// label3
 			// 
