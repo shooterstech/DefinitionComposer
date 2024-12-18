@@ -14,6 +14,9 @@ using Scopos.BabelFish.DataModel.Definitions;
 using System.Globalization;
 // using Amazon.Runtime.Internal.Util;
 using NLog;
+using Amazon.SecurityToken.Model;
+using Newtonsoft.Json;
+using Scopos.BabelFish.Helpers;
 
 namespace DefinitionComposer {
 	public partial class MainForm : Form {
@@ -22,6 +25,8 @@ namespace DefinitionComposer {
 		ClubDetail ClubDetail = null;
 		TextInfo TextInfo = CultureInfo.CurrentCulture.TextInfo;
 		private Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+		private Definition DefinitionUnderTest;
+		private string DefinitionUnderTestPath = "";
 
 		public MainForm() {
 			InitializeComponent();
@@ -140,6 +145,14 @@ namespace DefinitionComposer {
 						throw new NotImplementedException();
 				}
 
+				DisciplineType discipline = (DisciplineType) Enum.Parse( typeof( DisciplineType ), disciplineComboBox.Text );
+				definition.Discipline = discipline;
+
+				definition.Subdiscipline = subDisciplineTextBox.Text;
+
+				foreach( var tag in tagsTextBox.Text.Split( new[] { Environment.NewLine }, StringSplitOptions.None ) ) {
+					definition.Tags.Add( tag );
+				}
 
 				DirectoryInfo definitionDirectory = new DirectoryInfo( definitionFolderBrowserDialog.SelectedPath );
 				definition.SaveToFile( definitionDirectory );
@@ -164,6 +177,57 @@ namespace DefinitionComposer {
 			}
 
 			return DefinitionType.ATTRIBUTE;
+		}
+
+		private async void openToolStripMenuItem_Click( object sender, EventArgs e ) {
+
+			try {
+				openFileDialog1.InitialDirectory = definitionFolderBrowserDialog.SelectedPath;
+				openFileDialog1.DefaultExt = ".json";
+				openFileDialog1.Multiselect = false;
+
+				if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+
+					string filePath = openFileDialog1.FileName;
+					string json = File.ReadAllText( filePath );
+
+					DefinitionUnderTest = JsonConvert.DeserializeObject<Definition>( json );
+					DefinitionUnderTestPath = filePath;
+
+					definitionTypeLabel.Text = DefinitionUnderTest.Type.Description();
+					hierarchicalNameLabel.Text = DefinitionUnderTest.HierarchicalName.ToString();
+
+					if (await DefinitionUnderTest.GetMeetsSpecificationAsync()) {
+						specificationTextBox.Text = "Meets Specifications";
+					} else {
+						specificationTextBox.Text = string.Join( Environment.NewLine, DefinitionUnderTest.SpecificationMessages );
+					}
+				}
+			} catch (Exception ex) {
+				Logger.Error( ex );
+				specificationTextBox.Text = ex.Message;
+			}
+		}
+
+		private async void validateButton_Click( object sender, EventArgs e ) {
+
+			try {
+				string json = File.ReadAllText( DefinitionUnderTestPath );
+
+				DefinitionUnderTest = JsonConvert.DeserializeObject<Definition>( json );
+
+				definitionTypeLabel.Text = DefinitionUnderTest.Type.Description();
+				hierarchicalNameLabel.Text = DefinitionUnderTest.HierarchicalName.ToString();
+
+				if (await DefinitionUnderTest.GetMeetsSpecificationAsync()) {
+					specificationTextBox.Text = "Meets Specifications";
+				} else {
+					specificationTextBox.Text = string.Join( Environment.NewLine, DefinitionUnderTest.SpecificationMessages );
+				}
+			} catch (Exception ex) {
+				Logger.Error( ex );
+				specificationTextBox.Text = ex.Message;
+			}
 		}
 	}
 }

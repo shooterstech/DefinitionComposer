@@ -46,5 +46,17 @@ namespace DefinitionComposer {
                 this["OwnerId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefinitionUnderTestPath {
+            get {
+                return ((string)(this["DefinitionUnderTestPath"]));
+            }
+            set {
+                this["DefinitionUnderTestPath"] = value;
+            }
+        }
     }
 }
