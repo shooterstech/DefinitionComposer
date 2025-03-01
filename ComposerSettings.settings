@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DefinitionComposer" GeneratedClassName="ComposerSettings">
   <Profiles />
   <Settings>
-    <Setting Name="DefinitionDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="OwnerId" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

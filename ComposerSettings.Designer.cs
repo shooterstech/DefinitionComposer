@@ -26,18 +26,6 @@ namespace DefinitionComposer {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefinitionDirectory {
-            get {
-                return ((string)(this["DefinitionDirectory"]));
-            }
-            set {
-                this["DefinitionDirectory"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OwnerId {
             get {
                 return ((string)(this["OwnerId"]));

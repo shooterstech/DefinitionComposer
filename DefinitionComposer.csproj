@@ -51,8 +51,8 @@
     <Reference Include="AwsSignatureVersion4, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9830731f15ae0355, processorArchitecture=MSIL">
       <HintPath>packages\AwsSignatureVersion4.4.0.6\lib\netstandard2.0\AwsSignatureVersion4.dll</HintPath>
     </Reference>
-    <Reference Include="BabelFish, Version=1.7.1.11, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scopos.BabelFish.1.7.1.11\lib\netstandard2.0\BabelFish.dll</HintPath>
+    <Reference Include="BabelFish, Version=1.8.1.22, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Scopos.BabelFish.1.8.1.22\lib\netstandard2.0\BabelFish.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.9.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -114,6 +114,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>ComposerSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Forms\NewDefinitionFileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewDefinitionFileForm.Designer.cs">
+      <DependentUpon>NewDefinitionFileForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\NewDefinitionFileForm.resx">
+      <DependentUpon>NewDefinitionFileForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,5 +169,6 @@
     <Analyzer Include="packages\AWSSDK.SecurityToken.3.7.300.75\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.SecurityToken.3.7.300.75\analyzers\dotnet\cs\SharedAnalysisCode.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
