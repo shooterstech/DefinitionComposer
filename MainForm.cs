@@ -35,6 +35,7 @@ namespace DefinitionComposer {
             _clubsAPIClient = new ClubsAPIClient();
             _definitionAPIClient = new DefinitionAPIClient();
 
+			disciplineComboBox.DataSource = Enum.GetValues( typeof( DisciplineType ) );
             loadSettings();
 		}
 
@@ -75,6 +76,9 @@ namespace DefinitionComposer {
 				//TODO Look up owner and populate owner information text box
 				namespaceTextBox.Text = _definitionUnderTest.GetHierarchicalName().Namespace;
 				properNameTextBox.Text = _definitionUnderTest.GetHierarchicalName().ProperName;
+				subDisciplineTextBox.Text = _definitionUnderTest.Subdiscipline;
+				tagsTextBox.Text = string.Join( "\r\n", _definitionUnderTest.Tags );
+				disciplineComboBox.SelectedItem = _definitionUnderTest.Discipline; 
             }
 		}
 
