@@ -298,7 +298,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.definitionTypeGroupBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NewDefinitionFileForm";
             this.Text = "New Definition File";
             this.definitionTypeGroupBox.ResumeLayout(false);
