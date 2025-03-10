@@ -31,6 +31,10 @@ namespace DefinitionComposer.Classes {
 
             UploadToDynamoResponse response = new UploadToDynamoResponse();
             try {
+                var origSetName = definition.SetName;
+                var origVersion = definition.Version;
+                var origModifiedAt = definition.ModifiedAt;
+
                 var hn = definition.GetHierarchicalName();
                 var version = await GetNextMajorVersionNumber( definition, majorVersion );
 
@@ -83,13 +87,7 @@ namespace DefinitionComposer.Classes {
 
             var mostRecentVersionRequest = new GetDefinitionVersionPublicRequest( mostRecentVersionSetName, definition.Type ) { 
                 IgnoreInMemoryCache = true,
-                IgnoreFileSystemCache = true,
-                /*
-                 * TODO
-                 * Also disable cache from the REST API disable-cache=true
-                 * In the Rest API return the value of ModifiedAt
-                 * After successfully uploading to dynamo, reload the local copy of the definition from the rest api, that should have the updated version value
-                 */
+                IgnoreFileSystemCache = true
             };
             var mostRecentVersionResponse = await _definitionAPIClient.GetDefinitionVersionPublicAsync( mostRecentVersionRequest );
 

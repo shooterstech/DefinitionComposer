@@ -13,6 +13,7 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.Runtime;
 using DefinitionComposer.Classes;
+using DefinitionComposer.Forms;
 using NLog;
 using Scopos.BabelFish.APIClients;
 using Scopos.BabelFish.DataModel.Clubs;
@@ -157,10 +158,7 @@ namespace DefinitionComposer {
 			var saveResponse = await _definitionTable.SaveAsync( DefinitionUnderTest, (int) majorVersionUpDown.Value );
 			specificationTextBox.Text = saveResponse.Message;
 
-			if (saveResponse.Success) {
-				//DefinitionCache.DownloadNewMinorVersionIfAvaliableAsync( DefinitionUnderTest );
-				DefinitionCache.GetAttributeDefinitionAsync( saveResponse.SetName );
-			}
+			DefinitionUnderTest.SaveToFile( new FileInfo( _definitionUnderTestFilePath ) );
         }
 
 		/// <summary>
@@ -251,6 +249,19 @@ namespace DefinitionComposer {
 				FileName = _definitionUnderTestFilePath,
 				UseShellExecute = true
 			} );
+        }
+
+        private void downloadToolStripMenuItem_Click( object sender, EventArgs e ) {
+
+			var form = new DownloadDefinitionFile( this._definitionAPIClient );
+
+			if (form.ShowDialog() == DialogResult.OK) {
+
+				var definition = form.Definition;
+                _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
+				LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
+
+            }
         }
     }
 }
