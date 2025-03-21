@@ -253,6 +253,7 @@
             this.okButton.TabIndex = 13;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // closeButton
             // 
@@ -262,6 +263,7 @@
             this.closeButton.TabIndex = 14;
             this.closeButton.Text = "Close";
             this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // namespaceListBox
             // 
@@ -299,7 +301,10 @@
             this.Controls.Add(this.definitionTypeGroupBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "NewDefinitionFileForm";
+            this.ShowIcon = false;
             this.Text = "New Definition File";
             this.definitionTypeGroupBox.ResumeLayout(false);
             this.definitionTypeGroupBox.PerformLayout();

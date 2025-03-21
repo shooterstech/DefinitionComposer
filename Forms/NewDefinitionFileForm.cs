@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 using Scopos.BabelFish.APIClients;
 using Scopos.BabelFish.DataModel.Definitions;
-using NLog;
 using Scopos.BabelFish.Requests.DefinitionAPI;
-using Scopos.BabelFish.DataModel.Clubs;
 
 namespace DefinitionComposer.Forms {
     public partial class NewDefinitionFileForm : Form {
@@ -26,6 +19,8 @@ namespace DefinitionComposer.Forms {
 
             _clubsAPIClient = clubsAPIClient;
             _definitionAPIClient = definitionAPIClient;
+
+            ownerIdTextBox.Text = "OrionAcct000001";
         }
 
         private async void ownerIdTextBox_TextChanged( object sender, EventArgs e ) {
@@ -70,6 +65,14 @@ namespace DefinitionComposer.Forms {
 
         private async void okButton_Click( object sender, EventArgs e ) {
 
+            if (namespaceListBox.SelectedItem == null || string.IsNullOrEmpty( (string) namespaceListBox.SelectedItem )) {
+                MessageBox.Show( "Please select a namespace." );
+                return;
+            } else if (string.IsNullOrEmpty( properNameTextBox.Text) ) {
+                MessageBox.Show( "Please type in a Proper Name" );
+                    return;
+            }
+
             try {
                 Definition definition;
                 switch (GetSelectedDefinitionType()) {
@@ -113,8 +116,11 @@ namespace DefinitionComposer.Forms {
                 definition.Subdiscipline = string.Empty;
 
                 //validate this is indeed a new definition
-                var namespaceToUse = (NamespaceDetail) namespaceListBox.SelectedItem;
-                var setName = SetName.Parse( $"v0.0:{namespaceToUse.Namespace}:{properNameTextBox.Text}" );
+                var namespaceToUse = (string) namespaceListBox.SelectedItem;
+                var setName = SetName.Parse( $"v1.0:{namespaceToUse}:{properNameTextBox.Text}" );
+                definition.SetName = setName.ToString();
+                definition.HierarchicalName = setName.ToHierarchicalNameString();
+                definition.Version = "1.1";
                 var request = new GetDefinitionVersionPublicRequest(setName, GetSelectedDefinitionType() );
 
                 var response = await _definitionAPIClient.GetDefinitionVersionPublicAsync( request );
@@ -122,6 +128,7 @@ namespace DefinitionComposer.Forms {
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound) {
                     //Not Found is what we want, as it means the definition doesn't exist yet.
                     this.Definition = definition;
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 } else {
                     MessageBox.Show( $"A Definition of tyhpe {GetSelectedDefinitionType()} and Hierarchical Name {setName.ToHierarchicalNameString()} already exists." );
@@ -134,5 +141,10 @@ namespace DefinitionComposer.Forms {
         }
 
         public Definition Definition { get; private set; }
+
+        private void closeButton_Click( object sender, EventArgs e ) {
+            DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
     }
 }

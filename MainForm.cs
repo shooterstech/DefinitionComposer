@@ -95,7 +95,6 @@ namespace DefinitionComposer {
 
 				typeOfDefinitionTextBox.Text = _definitionUnderTest.Type.Description();
 				ownerIdTextBox.Text = _definitionUnderTest.Owner;
-				//TODO Look up owner and populate owner information text box
 				namespaceTextBox.Text = _definitionUnderTest.GetHierarchicalName().Namespace;
 				properNameTextBox.Text = _definitionUnderTest.GetHierarchicalName().ProperName;
 				subDisciplineTextBox.Text = _definitionUnderTest.Subdiscipline;
@@ -173,6 +172,7 @@ namespace DefinitionComposer {
 
 				//Load it
 				DefinitionUnderTest = JsonSerializer.Deserialize<Definition>( json, SerializerOptions.SystemTextJsonDeserializer );
+				DefinitionUnderTest.ConvertValues(); //Normall ConvertValue is called on deserialization from rest api. but since we're loading it from file manually, have to call ConvertValue manually as well.
 
                 //Start the new version check task
                 var newVersionTask = _definitionUnderTest.IsVersionUpdateAvaliableAsync();
@@ -245,6 +245,7 @@ namespace DefinitionComposer {
 
         private void openToEditButton_Click( object sender, EventArgs e ) {
 
+			DefinitionUnderTest.SaveToFile( new FileInfo( _definitionUnderTestFilePath ) );
 			Process.Start( new ProcessStartInfo {
 				FileName = _definitionUnderTestFilePath,
 				UseShellExecute = true
@@ -262,6 +263,32 @@ namespace DefinitionComposer {
 				LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
 
             }
+        }
+
+        private void newToolStripMenuItem_Click( object sender, EventArgs e ) {
+
+			NewDefinitionFileForm form = new NewDefinitionFileForm( _clubsAPIClient, _definitionAPIClient );
+
+			if ( form.ShowDialog() == DialogResult.OK ) {
+
+                var definition = form.Definition;
+                _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
+                LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
+            }
+        }
+
+        private void copyToolStripMenuItem_Click( object sender, EventArgs e ) {
+
+			CopyDefinitionFile form = new CopyDefinitionFile( _definitionAPIClient, DefinitionUnderTest );
+
+            if (form.ShowDialog() == DialogResult.OK) {
+
+                var definition = form.Definition;
+                _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
+                LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
+            }
+
+
         }
     }
 }
