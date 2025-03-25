@@ -31,9 +31,13 @@ namespace DefinitionComposer.Forms {
                 return;
             }
 
-            this.Definition = await DefinitionCache.GetDefinitionAsync( (DefinitionType) definitionTypeComboBox.SelectedValue, sn );
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            try {
+                this.Definition = await DefinitionCache.GetDefinitionAsync( (DefinitionType)definitionTypeComboBox.SelectedValue, sn );
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            } catch (DefinitionNotFoundException ex) {
+                MessageBox.Show( ex.Message, "Not Found" );
+            }
         }
 
         private void closeButton_Click( object sender, EventArgs e ) {

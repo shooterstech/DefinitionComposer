@@ -115,6 +115,9 @@ namespace DefinitionComposer.Forms {
                 definition.Discipline = DisciplineType.NA;
                 definition.Subdiscipline = string.Empty;
 
+                //Set default values
+                definition.SetDefaultValues();
+
                 //validate this is indeed a new definition
                 var namespaceToUse = (string) namespaceListBox.SelectedItem;
                 var setName = SetName.Parse( $"v1.0:{namespaceToUse}:{properNameTextBox.Text}" );
