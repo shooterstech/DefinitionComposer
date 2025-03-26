@@ -140,10 +140,10 @@
             this.rankingRuleRadioButton.Location = new System.Drawing.Point(8, 162);
             this.rankingRuleRadioButton.Margin = new System.Windows.Forms.Padding(4);
             this.rankingRuleRadioButton.Name = "rankingRuleRadioButton";
-            this.rankingRuleRadioButton.Size = new System.Drawing.Size(143, 23);
+            this.rankingRuleRadioButton.Size = new System.Drawing.Size(132, 23);
             this.rankingRuleRadioButton.TabIndex = 4;
             this.rankingRuleRadioButton.Tag = "RANKINGRULES";
-            this.rankingRuleRadioButton.Text = "RANKINNG RULES";
+            this.rankingRuleRadioButton.Text = "RANKING RULES";
             this.rankingRuleRadioButton.UseVisualStyleBackColor = true;
             // 
             // eventStyleRadioButton

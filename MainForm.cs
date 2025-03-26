@@ -107,7 +107,7 @@ namespace DefinitionComposer {
         private async void openToolStripMenuItem_Click( object sender, EventArgs e ) {
 
 			try {
-				openFileDialog1.InitialDirectory = DefinitionAPIClient.LocalStoreDirectory.FullName;
+				openFileDialog1.InitialDirectory = DefinitionAPIClient.LocalStoreDirectory.FullName + "\\DEFINITIONS";
 				openFileDialog1.DefaultExt = ".json";
                 openFileDialog1.Filter = "JSON files (*.json)|*.json";
                 openFileDialog1.Multiselect = false;
