@@ -167,6 +167,7 @@ namespace DefinitionComposer {
 		/// <returns>Boolean indicating if the loaded json is valid, meets specification, and may be uploaded.</returns>
 		private async Task<bool> LoadJsonIntoDefinitionUnderTestAsync( string json ) {
 
+			specificationTextBox.Text = "Evaluating ...";
             StringBuilder errorMessage = new StringBuilder();
             try {
 
@@ -176,6 +177,8 @@ namespace DefinitionComposer {
 
                 //Start the new version check task
                 var newVersionTask = _definitionUnderTest.IsVersionUpdateAvaliableAsync();
+
+				//var eventTree = EventComposite.GrowEventTree( (CourseOfFire) DefinitionUnderTest );
 
                 //Now check the specifications
                 if (await DefinitionUnderTest.GetMeetsSpecificationAsync()) {
