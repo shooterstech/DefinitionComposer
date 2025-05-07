@@ -33,6 +33,7 @@ namespace DefinitionComposer {
 		private DefinitionTable _definitionTable;
 		private DefinitionAPIClient _definitionAPIClient;
 		private ClubsAPIClient _clubsAPIClient;
+		private RecentFiles _recentFiles = new RecentFiles();
 
         public MainForm() {
 			InitializeComponent();
@@ -47,10 +48,11 @@ namespace DefinitionComposer {
 
             _clubsAPIClient = new ClubsAPIClient();
             _definitionAPIClient = new DefinitionAPIClient();
+			_recentFiles.OnRecentFileAdded += onRecentFileAdded;
 
-            //Relying on the user's credentials in their aws credentials file
+			//Relying on the user's credentials in their aws credentials file
 
-            RegionEndpoint endpoint = RegionEndpoint.USEast1;
+			RegionEndpoint endpoint = RegionEndpoint.USEast1;
             _dynamoDbClient = new AmazonDynamoDBClient( new AmazonDynamoDBConfig() {
                 RegionEndpoint = endpoint,
                 Timeout = TimeSpan.FromSeconds( 10 ),
@@ -118,7 +120,10 @@ namespace DefinitionComposer {
 					string json = File.ReadAllText( _definitionUnderTestFilePath );
 					
 					LoadJsonIntoDefinitionUnderTestAsync( json );
-                }
+
+					_recentFiles.Add( new RecentFile( _definitionUnderTestFilePath, DefinitionUnderTest.Type, DefinitionUnderTest.SetName ) );
+					openToEditButton_Click( null, null );
+				}
 
             } catch (Exception ex) {
 				_logger.Error( ex );
@@ -176,7 +181,7 @@ namespace DefinitionComposer {
 				DefinitionUnderTest.ConvertValues(); //Normall ConvertValue is called on deserialization from rest api. but since we're loading it from file manually, have to call ConvertValue manually as well.
 
                 //Start the new version check task
-                var newVersionTask = _definitionUnderTest.IsVersionUpdateAvaliableAsync();
+                var newVersionTask = DefinitionUnderTest.IsVersionUpdateAvaliableAsync();
 
 				//var eventTree = EventComposite.GrowEventTree( (CourseOfFire) DefinitionUnderTest );
 
@@ -265,6 +270,8 @@ namespace DefinitionComposer {
                 _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
 				LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
 
+				_recentFiles.Add( new RecentFile( _definitionUnderTestFilePath, DefinitionUnderTest.Type, DefinitionUnderTest.SetName ) );
+                openToEditButton_Click( null, null );
             }
         }
 
@@ -277,7 +284,10 @@ namespace DefinitionComposer {
                 var definition = form.Definition;
                 _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
                 LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
-            }
+
+                openToEditButton_Click( null, null );
+                _recentFiles.Add( new RecentFile( _definitionUnderTestFilePath, DefinitionUnderTest.Type, DefinitionUnderTest.SetName ) );
+			}
         }
 
         private void copyToolStripMenuItem_Click( object sender, EventArgs e ) {
@@ -287,11 +297,41 @@ namespace DefinitionComposer {
             if (form.ShowDialog() == DialogResult.OK) {
 
                 var definition = form.Definition;
+				definition.ModifiedAt = DateTime.MinValue;
                 _definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
                 LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
+
+				openToEditButton_Click( null, null );
+				_recentFiles.Add( new RecentFile( _definitionUnderTestFilePath, DefinitionUnderTest.Type, DefinitionUnderTest.SetName ) );
             }
 
-
         }
+
+		private void onRecentFileAdded( object sender, EventArgs<RecentFile> e ) {
+
+			recentToolStripMenuItem.DropDownItems.Clear();
+
+			foreach( var recentFile in _recentFiles.Files ) {
+				ToolStripMenuItem menuItem = new ToolStripMenuItem( recentFile.ToString() );
+				menuItem.Click += onRecentFileSelected;
+				menuItem.Tag = recentFile;
+				recentToolStripMenuItem.DropDownItems.Add( menuItem );
+			}
+		}
+
+		private void onRecentFileSelected(  object sender, EventArgs e ) {
+			
+			var menuItem = (ToolStripMenuItem)sender;
+			var fileToOpen = (RecentFile)menuItem.Tag;
+
+			string json = File.ReadAllText( fileToOpen.FilePath );
+
+			_definitionUnderTestFilePath = fileToOpen.FilePath;
+			LoadJsonIntoDefinitionUnderTestAsync( json );
+            openToEditButton_Click( null, null );
+
+            _recentFiles.Files.Add( fileToOpen );
+
+		}
     }
 }
