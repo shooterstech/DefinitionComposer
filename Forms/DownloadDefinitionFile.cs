@@ -37,6 +37,8 @@ namespace DefinitionComposer.Forms {
                 this.Close();
             } catch (DefinitionNotFoundException ex) {
                 MessageBox.Show( ex.Message, "Not Found" );
+            } catch (ScoposAPIException apiEx ) {
+                MessageBox.Show( apiEx.Message, "Error" );
             }
         }
 
