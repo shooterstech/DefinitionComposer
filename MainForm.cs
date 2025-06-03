@@ -333,5 +333,37 @@ namespace DefinitionComposer {
             _recentFiles.Files.Add( fileToOpen );
 
 		}
-    }
+
+		/// <summary>
+		/// Re-pulls the current definition from the Rest API, replacing what is stored in the file system.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void reDownloadToolStripMenuItem_Click( object sender, EventArgs e ) {
+
+			if ( DefinitionUnderTest == null ) {
+				MessageBox.Show( "Please open a Definition file first." );
+				return;
+			}
+
+			if (MessageBox.Show( $"Are you sure you want to re-download {DefinitionUnderTest.SetName}? This will overwrite any changes you may have locally?", "Confirm", MessageBoxButtons.YesNo ) == DialogResult.Yes) {
+
+				//This is a bit of a brute force way to re-download from the rest api.
+				//First clear the Initializer cache, whcih clears both the definition cache and the response cache built into babelfish.
+				Initializer.ClearCache( false );
+				//Next delete the file. As the Definition cache would normally try and read from it.
+				File.Delete( _definitionUnderTestFilePath );
+				//Now download it.
+				var sn = DefinitionUnderTest.GetSetName(true);
+				var definition = await DefinitionCache.GetDefinitionAsync( DefinitionUnderTest.Type, sn );
+				//Save
+				_definitionUnderTestFilePath = definition.SaveToFile( DefinitionAPIClient.LocalStoreDirectory );
+				//And load
+				await LoadJsonIntoDefinitionUnderTestAsync( definition.SerializeToJson() );
+
+				//Re-open in text editor for good measure, however, probable don't need to.
+				openToEditButton_Click( null, null );
+			}
+		}
+	}
 }

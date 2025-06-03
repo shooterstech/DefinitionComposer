@@ -47,6 +47,7 @@
 			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.specificationTextBox = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
@@ -57,7 +58,7 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.majorVersionUpDown = new System.Windows.Forms.NumericUpDown();
 			this.updateAvailLabel = new System.Windows.Forms.Label();
-			this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.reDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.majorVersionUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -223,6 +224,7 @@
             this.openToolStripMenuItem,
             this.downloadToolStripMenuItem,
             this.copyToolStripMenuItem,
+            this.reDownloadToolStripMenuItem,
             this.closeToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -272,6 +274,12 @@
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
 			this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
+			// 
+			// recentToolStripMenuItem
+			// 
+			this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
+			this.recentToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
+			this.recentToolStripMenuItem.Text = "Recent";
 			// 
 			// openFileDialog1
 			// 
@@ -362,11 +370,12 @@
 			this.updateAvailLabel.TabIndex = 31;
 			this.updateAvailLabel.Text = "Update Avail";
 			// 
-			// recentToolStripMenuItem
+			// reDownloadToolStripMenuItem
 			// 
-			this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-			this.recentToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
-			this.recentToolStripMenuItem.Text = "Recent";
+			this.reDownloadToolStripMenuItem.Name = "reDownloadToolStripMenuItem";
+			this.reDownloadToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.reDownloadToolStripMenuItem.Text = "Re-Download";
+			this.reDownloadToolStripMenuItem.Click += new System.EventHandler(this.reDownloadToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -449,6 +458,7 @@
         private System.Windows.Forms.NumericUpDown majorVersionUpDown;
         private System.Windows.Forms.Label updateAvailLabel;
 		private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem reDownloadToolStripMenuItem;
 	}
 }
 
