@@ -184,6 +184,7 @@ namespace DefinitionComposer {
                 var newVersionTask = DefinitionUnderTest.IsVersionUpdateAvaliableAsync();
 
 				//var eventTree = EventComposite.GrowEventTree( (CourseOfFire) DefinitionUnderTest );
+				//var tl = eventTree.GetTopLevelStageStyleEvents();
 
                 //Now check the specifications
                 if (await DefinitionUnderTest.GetMeetsSpecificationAsync()) {
@@ -234,7 +235,7 @@ namespace DefinitionComposer {
         private async void ownerIdTextBox_TextChanged( object sender, EventArgs e ) {
 
             var getClubDetailResponse = await _clubsAPIClient.GetClubDetailPublicAsync( ownerIdTextBox.Text );
-            if (getClubDetailResponse.StatusCode == System.Net.HttpStatusCode.OK) {
+            if (getClubDetailResponse.HasOkStatusCode) {
                 var clubDetail = getClubDetailResponse.ClubDetail;
 
                 StringBuilder clubInfo = new StringBuilder();
@@ -246,7 +247,7 @@ namespace DefinitionComposer {
                 ownerInformationTextBox.Text = clubInfo.ToString();
 
             } else {
-                ownerInformationTextBox.Text = $"Unable to look up. {getClubDetailResponse.StatusCode}";
+                ownerInformationTextBox.Text = $"Unable to look up. {getClubDetailResponse.OverallStatusCode}";
             }
 
         }

@@ -91,16 +91,16 @@ namespace DefinitionComposer.Classes {
             };
             var mostRecentVersionResponse = await _definitionAPIClient.GetDefinitionVersionPublicAsync( mostRecentVersionRequest );
 
-            if (mostRecentVersionResponse.StatusCode == System.Net.HttpStatusCode.OK) {
+            if (mostRecentVersionResponse.HasOkStatusCode) {
                 //The happy path
                 var apiVersion = mostRecentVersionResponse.Value.GetDefinitionVersion();
                 return $"{apiVersion.MajorVersion}.{apiVersion.MinorVersion + 1}";
-            } else if (mostRecentVersionResponse.StatusCode == System.Net.HttpStatusCode.NotFound) {
+            } else if (mostRecentVersionResponse.RestApiStatusCode == System.Net.HttpStatusCode.NotFound) {
                 //Likely means that this is a new Definition, that's not been uploaded before
                 return $"{majorVersion}.{1}";
             } else {
                 //Throw an error as something unexpected happen.
-                throw new ScoposAPIException( $"Unable to complete GetDefinitionVersionPublicAsync request with status code {mostRecentVersionResponse.StatusCode}." );
+                throw new ScoposAPIException( $"Unable to complete GetDefinitionVersionPublicAsync request with status code {mostRecentVersionResponse.OverallStatusCode}." );
             }
         }
 
@@ -112,16 +112,16 @@ namespace DefinitionComposer.Classes {
             var mostRecentVersionRequest = new GetDefinitionVersionPublicRequest( mostRecentVersionSetName, definition.Type );
             var mostRecentVersionResponse = await _definitionAPIClient.GetDefinitionVersionPublicAsync( mostRecentVersionRequest );
 
-            if (mostRecentVersionResponse.StatusCode == System.Net.HttpStatusCode.OK) {
+            if (mostRecentVersionResponse.HasOkStatusCode) {
                 //The happy path
                 var apiVersion = mostRecentVersionResponse.Value.GetDefinitionVersion();
                 return apiVersion.MajorVersion <= majorVersion;
-            } else if (mostRecentVersionResponse.StatusCode == System.Net.HttpStatusCode.NotFound) {
+            } else if (mostRecentVersionResponse.RestApiStatusCode == System.Net.HttpStatusCode.NotFound) {
                 //Likely means that this is a new Definition, that's not been uploaded before
                 return true;
             } else {
                 //Throw an error as something unexpected happen.
-                throw new ScoposAPIException( $"Unable to complete GetDefinitionVersionPublicAsync request with status code {mostRecentVersionResponse.StatusCode}." );
+                throw new ScoposAPIException( $"Unable to complete GetDefinitionVersionPublicAsync request with status code {mostRecentVersionResponse.OverallStatusCode}." );
             }
         }
     }

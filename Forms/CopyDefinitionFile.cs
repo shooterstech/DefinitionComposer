@@ -48,7 +48,7 @@ namespace DefinitionComposer.Forms {
 
             var response = await _definitionAPIClient.GetDefinitionVersionPublicAsync( request );
 
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound) {
+            if (response.RestApiStatusCode == System.Net.HttpStatusCode.NotFound) {
                 //Not Found is what we want, as it means the definition doesn't exist yet.
                 this.DialogResult = DialogResult.OK;
                 this.Close();
