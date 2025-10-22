@@ -366,5 +366,14 @@ namespace DefinitionComposer {
 				openToEditButton_Click( null, null );
 			}
 		}
-	}
+
+        private void moveForTestingButton_Click( object sender, EventArgs e ) {
+
+			var myDocuments = Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments );
+			var orionsDefinitionFolder = new DirectoryInfo( $"{myDocuments}//My Matches//DATABASE" ); 
+			var testingLocation = DefinitionUnderTest.SaveToFile( orionsDefinitionFolder );
+
+			MessageBox.Show( $"{DefinitionUnderTest} saved to {testingLocation}" );
+        }
+    }
 }

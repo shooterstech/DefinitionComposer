@@ -59,6 +59,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.majorVersionUpDown = new System.Windows.Forms.NumericUpDown();
             this.updateAvailLabel = new System.Windows.Forms.Label();
+            this.moveForTestingButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.majorVersionUpDown)).BeginInit();
             this.SuspendLayout();
@@ -140,7 +141,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(311, 554);
+            this.saveButton.Location = new System.Drawing.Point(157, 554);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(148, 32);
             this.saveButton.TabIndex = 12;
@@ -377,11 +378,23 @@
             this.updateAvailLabel.TabIndex = 31;
             this.updateAvailLabel.Text = "Update Avail";
             // 
+            // moveForTestingButton
+            // 
+            this.moveForTestingButton.Location = new System.Drawing.Point(311, 554);
+            this.moveForTestingButton.Name = "moveForTestingButton";
+            this.moveForTestingButton.Size = new System.Drawing.Size(148, 32);
+            this.moveForTestingButton.TabIndex = 32;
+            this.moveForTestingButton.Tag = "validate";
+            this.moveForTestingButton.Text = "Move for Testing";
+            this.moveForTestingButton.UseVisualStyleBackColor = true;
+            this.moveForTestingButton.Click += new System.EventHandler(this.moveForTestingButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 605);
+            this.Controls.Add(this.moveForTestingButton);
             this.Controls.Add(this.updateAvailLabel);
             this.Controls.Add(this.majorVersionUpDown);
             this.Controls.Add(this.button2);
@@ -459,6 +472,7 @@
         private System.Windows.Forms.Label updateAvailLabel;
 		private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem reDownloadToolStripMenuItem;
-	}
+        private System.Windows.Forms.Button moveForTestingButton;
+    }
 }
 
