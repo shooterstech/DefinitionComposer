@@ -14,7 +14,7 @@ namespace DefinitionComposer.Forms {
         private DefinitionAPIClient _definitionAPIClient;
         private Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public NewDefinitionFileForm(ClubsAPIClient clubsAPIClient, DefinitionAPIClient definitionAPIClient ) {
+        public NewDefinitionFileForm( ClubsAPIClient clubsAPIClient, DefinitionAPIClient definitionAPIClient ) {
             InitializeComponent();
 
             _clubsAPIClient = clubsAPIClient;
@@ -65,12 +65,12 @@ namespace DefinitionComposer.Forms {
 
         private async void okButton_Click( object sender, EventArgs e ) {
 
-            if (namespaceListBox.SelectedItem == null || string.IsNullOrEmpty( (string) namespaceListBox.SelectedItem )) {
+            if (namespaceListBox.SelectedItem == null || string.IsNullOrEmpty( (string)namespaceListBox.SelectedItem )) {
                 MessageBox.Show( "Please select a namespace." );
                 return;
-            } else if (string.IsNullOrEmpty( properNameTextBox.Text) ) {
+            } else if (string.IsNullOrEmpty( properNameTextBox.Text )) {
                 MessageBox.Show( "Please type in a Proper Name" );
-                    return;
+                return;
             }
 
             try {
@@ -93,6 +93,9 @@ namespace DefinitionComposer.Forms {
                         break;
                     case DefinitionType.RESULTLISTFORMAT:
                         definition = await DefinitionFactory.Build<ResultListFormat>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
+                        break;
+                    case DefinitionType.RULEBOOK:
+                        definition = await DefinitionFactory.Build<Rulebook>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
                         break;
                     case DefinitionType.SCOREFORMATCOLLECTION:
                         definition = await DefinitionFactory.Build<ScoreFormatCollection>( ownerIdTextBox.Text, properNameTextBox.Text, namespaceListBox.Text );
@@ -119,12 +122,12 @@ namespace DefinitionComposer.Forms {
                 definition.SetDefaultValues();
 
                 //validate this is indeed a new definition
-                var namespaceToUse = (string) namespaceListBox.SelectedItem;
+                var namespaceToUse = (string)namespaceListBox.SelectedItem;
                 var setName = SetName.Parse( $"v1.0:{namespaceToUse}:{properNameTextBox.Text}" );
-                definition.SetName = setName.ToString();
+                definition.SetName = setName;
                 definition.HierarchicalName = setName.ToHierarchicalNameString();
                 definition.Version = "1.1";
-                var request = new GetDefinitionVersionPublicRequest(setName, GetSelectedDefinitionType() );
+                var request = new GetDefinitionVersionPublicRequest( setName, GetSelectedDefinitionType() );
 
                 var response = await _definitionAPIClient.GetDefinitionVersionPublicAsync( request );
 

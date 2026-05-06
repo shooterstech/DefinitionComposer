@@ -43,11 +43,13 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.namespaceListBox = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.rulebookRadioButton = new System.Windows.Forms.RadioButton();
             this.definitionTypeGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // definitionTypeGroupBox
             // 
+            this.definitionTypeGroupBox.Controls.Add(this.rulebookRadioButton);
             this.definitionTypeGroupBox.Controls.Add(this.targetCollecitonRadioButton);
             this.definitionTypeGroupBox.Controls.Add(this.targetRadioButton);
             this.definitionTypeGroupBox.Controls.Add(this.stageStyleRadioButton);
@@ -63,7 +65,7 @@
             this.definitionTypeGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.definitionTypeGroupBox.Name = "definitionTypeGroupBox";
             this.definitionTypeGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.definitionTypeGroupBox.Size = new System.Drawing.Size(284, 365);
+            this.definitionTypeGroupBox.Size = new System.Drawing.Size(284, 386);
             this.definitionTypeGroupBox.TabIndex = 1;
             this.definitionTypeGroupBox.TabStop = false;
             this.definitionTypeGroupBox.Text = "Type of Definition";
@@ -72,7 +74,7 @@
             // 
             this.targetCollecitonRadioButton.AutoSize = true;
             this.targetCollecitonRadioButton.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.targetCollecitonRadioButton.Location = new System.Drawing.Point(8, 330);
+            this.targetCollecitonRadioButton.Location = new System.Drawing.Point(8, 351);
             this.targetCollecitonRadioButton.Margin = new System.Windows.Forms.Padding(4);
             this.targetCollecitonRadioButton.Name = "targetCollecitonRadioButton";
             this.targetCollecitonRadioButton.Size = new System.Drawing.Size(162, 23);
@@ -85,7 +87,7 @@
             // 
             this.targetRadioButton.AutoSize = true;
             this.targetRadioButton.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.targetRadioButton.Location = new System.Drawing.Point(8, 297);
+            this.targetRadioButton.Location = new System.Drawing.Point(8, 320);
             this.targetRadioButton.Margin = new System.Windows.Forms.Padding(4);
             this.targetRadioButton.Name = "targetRadioButton";
             this.targetRadioButton.Size = new System.Drawing.Size(75, 23);
@@ -98,7 +100,7 @@
             // 
             this.stageStyleRadioButton.AutoSize = true;
             this.stageStyleRadioButton.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stageStyleRadioButton.Location = new System.Drawing.Point(8, 263);
+            this.stageStyleRadioButton.Location = new System.Drawing.Point(8, 289);
             this.stageStyleRadioButton.Margin = new System.Windows.Forms.Padding(4);
             this.stageStyleRadioButton.Name = "stageStyleRadioButton";
             this.stageStyleRadioButton.Size = new System.Drawing.Size(109, 23);
@@ -111,7 +113,7 @@
             // 
             this.scoreFormatCollectionRadioButton.AutoSize = true;
             this.scoreFormatCollectionRadioButton.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scoreFormatCollectionRadioButton.Location = new System.Drawing.Point(8, 229);
+            this.scoreFormatCollectionRadioButton.Location = new System.Drawing.Point(8, 258);
             this.scoreFormatCollectionRadioButton.Margin = new System.Windows.Forms.Padding(4);
             this.scoreFormatCollectionRadioButton.Name = "scoreFormatCollectionRadioButton";
             this.scoreFormatCollectionRadioButton.Size = new System.Drawing.Size(216, 23);
@@ -284,11 +286,24 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Namespace";
             // 
+            // rulebookRadioButton
+            // 
+            this.rulebookRadioButton.AutoSize = true;
+            this.rulebookRadioButton.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rulebookRadioButton.Location = new System.Drawing.Point(8, 227);
+            this.rulebookRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.rulebookRadioButton.Name = "rulebookRadioButton";
+            this.rulebookRadioButton.Size = new System.Drawing.Size(97, 23);
+            this.rulebookRadioButton.TabIndex = 10;
+            this.rulebookRadioButton.Tag = "RULEBOOK";
+            this.rulebookRadioButton.Text = "RULEBOOK";
+            this.rulebookRadioButton.UseVisualStyleBackColor = true;
+            // 
             // NewDefinitionFileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(606, 391);
+            this.ClientSize = new System.Drawing.Size(606, 412);
             this.Controls.Add(this.namespaceListBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.closeButton);
@@ -335,5 +350,6 @@
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.ListBox namespaceListBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RadioButton rulebookRadioButton;
     }
 }

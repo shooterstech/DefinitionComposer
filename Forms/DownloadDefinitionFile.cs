@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Scopos.BabelFish.APIClients;
 using Scopos.BabelFish.DataModel.Definitions;
@@ -14,6 +7,7 @@ namespace DefinitionComposer.Forms {
     public partial class DownloadDefinitionFile : Form {
 
         private DefinitionAPIClient _definitionAPIClient;
+        private (int, int) _dummyTuple;
 
         public DownloadDefinitionFile( DefinitionAPIClient definitionAPIClient ) {
             InitializeComponent();
@@ -26,7 +20,7 @@ namespace DefinitionComposer.Forms {
 
             SetName sn;
 
-            if ( ! SetName.TryParse( setNameTextBox.Text, out sn)) {
+            if (!SetName.TryParse( setNameTextBox.Text, out sn )) {
                 messageTextBox.Text = $"Unable to parse SetName '{setNameTextBox.Text}'.";
                 return;
             }
@@ -37,7 +31,7 @@ namespace DefinitionComposer.Forms {
                 this.Close();
             } catch (DefinitionNotFoundException ex) {
                 MessageBox.Show( ex.Message, "Not Found" );
-            } catch (ScoposAPIException apiEx ) {
+            } catch (ScoposAPIException apiEx) {
                 MessageBox.Show( apiEx.Message, "Error" );
             }
         }

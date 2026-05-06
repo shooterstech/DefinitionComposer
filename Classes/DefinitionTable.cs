@@ -6,12 +6,11 @@ using NLog;
 using Scopos.BabelFish.APIClients;
 using Scopos.BabelFish.DataModel.Definitions;
 using Scopos.BabelFish.Requests.DefinitionAPI;
-using Scopos.BabelFish.Runtime;
 
 namespace DefinitionComposer.Classes {
     public class DefinitionTable {
 
-        private Table _definitionTable;
+        private ITable _definitionTable;
         private const string DEFINITION_TABLE_NAME = "Definition";
         private Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private IAmazonDynamoDB _dynamoDbClient;
@@ -22,9 +21,11 @@ namespace DefinitionComposer.Classes {
             this._dynamoDbClient = dynamoDbClient;
             this._definitionAPIClient = _definitionAPIClient;
 
-            if (!Table.TryLoadTable( _dynamoDbClient, DEFINITION_TABLE_NAME, out _definitionTable )) {
-                throw new ScoposException( $"Can not load table {DEFINITION_TABLE_NAME}" );
-            }
+
+            _definitionTable = new TableBuilder( this._dynamoDbClient, DEFINITION_TABLE_NAME )
+                .AddHashKey( "Type", DynamoDBEntryType.String )
+                .AddRangeKey( "SetName", DynamoDBEntryType.String )
+                .Build();
         }
 
         public async Task<UploadToDynamoResponse> SaveAsync( Definition definition, int majorVersion ) {
@@ -39,7 +40,7 @@ namespace DefinitionComposer.Classes {
                 var version = await GetNextMajorVersionNumber( definition, majorVersion );
 
                 //Save the version with a specific version number.
-                definition.SetName = $"v{version}:{hn}";
+                definition.SetName = SetName.Parse( $"v{version}:{hn}" );
                 definition.Version = version;
                 definition.ModifiedAt = DateTime.UtcNow;
                 var json = definition.SerializeToJson();
@@ -48,14 +49,14 @@ namespace DefinitionComposer.Classes {
 
                 //Save as most recent overall version, if applicable
                 if (await ShouldSaveAsMostRecentVersion( definition, majorVersion )) {
-                    definition.SetName = $"v0.0:{hn}";
+                    definition.SetName = SetName.Parse( $"v0.0:{hn}" );
                     json = definition.SerializeToJson();
                     item = Document.FromJson( json );
                     _definitionTable.PutItem( item );
                 }
 
                 //Save as most recent major version
-                definition.SetName = $"v{majorVersion}.0:{hn}";
+                definition.SetName = SetName.Parse( $"v{majorVersion}.0:{hn}" );
                 json = definition.SerializeToJson();
                 item = Document.FromJson( json );
                 _definitionTable.PutItem( item );
@@ -81,11 +82,11 @@ namespace DefinitionComposer.Classes {
         }
 
         public async Task<string> GetNextMajorVersionNumber( Definition definition, int majorVersion ) {
-            
+
             var hn = definition.GetHierarchicalName();
             var mostRecentVersionSetName = SetName.Parse( $"v{majorVersion}.0:{hn}" );
 
-            var mostRecentVersionRequest = new GetDefinitionVersionPublicRequest( mostRecentVersionSetName, definition.Type ) { 
+            var mostRecentVersionRequest = new GetDefinitionVersionPublicRequest( mostRecentVersionSetName, definition.Type ) {
                 IgnoreInMemoryCache = true,
                 IgnoreFileSystemCache = true
             };

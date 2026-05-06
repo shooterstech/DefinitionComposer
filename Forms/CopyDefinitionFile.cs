@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NLog;
 using Scopos.BabelFish.APIClients;
@@ -39,8 +32,8 @@ namespace DefinitionComposer.Forms {
             var currentSetName = SetName.Parse( _copyFromDefinition.SetName );
             var namespaceToUse = currentSetName.Namespace;
 
-            var newSetName = SetName.Parse( $"v1.0:{namespaceToUse}:{properNameTextBox.Text}");
-            Definition.SetName = newSetName.ToString();
+            var newSetName = SetName.Parse( $"v1.0:{namespaceToUse}:{properNameTextBox.Text}" );
+            Definition.SetName = newSetName;
             Definition.HierarchicalName = newSetName.ToHierarchicalNameString();
             Definition.Version = "1.1";
 
